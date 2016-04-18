@@ -1,0 +1,1 @@
+COMMONSYSLOG %{SYSLOGTIMESTAMP:log_timestamp} %{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{GREEDYDATA:raw_message}

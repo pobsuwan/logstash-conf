@@ -1,1 +1,11 @@
-COMMONSYSLOG %{SYSLOGTIMESTAMP:log_timestamp} %{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{GREEDYDATA:raw_message}
+COMMONSYSLOG %{SYSLOGTIMESTAMP:log_timestamp} %{SYSLOGHOST:log_source} %{SYSLOGPROG}: %{GREEDYDATA:raw_message}
+
+SRCIP %{IPORHOST:src_ip}
+DSTIP %{IPORHOST:dst_ip}
+SRCPORT %{IPORHOST:src_port}
+DSTPORT %{IPORHOST:dst_port}
+
+NETSCREENCOMMONLOG NetScreen device_id=%{WORD:device_id}%{DATA}: start_time=\"%{DATA:start_time}\" duration=%{INT:duration} policy_id=%{INT:policy_id} service=%{DATA:service} proto=%{INT:proto} src zone=%{WORD:src_zone} dst zone=%{WORD:dst_zone} action=%{WORD:action} sent=%{INT:sent} rcvd=%{INT:rcvd} src=%{SRCIP} dst=%{DSTIP}
+NETSCREENLOG1 %{NETSCREENCOMMONLOG} src_port=%{SRCPORT} dst_port=%{DSTPORT} src-xlated ip=%{IPORHOST} port=%{INT} dst-xlated ip=%{IPORHOST} port=%{INT} session_id=%{INT:session_id} reason=%{GREEDYDATA:reason}
+NETSCREENLOG2 %{NETSCREENCOMMONLOG} src_port=%{SRCPORT} dst_port=%{DSTPORT} session_id=%{INT:session_id}"
+NETSCREENLOG3 %{NETSCREENCOMMONLOG} icmp .*session_id=%{INT:session_id} reason=%{GREEDYDATA:reason}
